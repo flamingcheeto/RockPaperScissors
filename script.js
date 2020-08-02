@@ -9,6 +9,12 @@ function startGame(e) {
     startButton.parentNode.appendChild(div);
     startButton.remove();
 
+    if (document.querySelector('p[id="winnerStatement"')) {
+        document.querySelector('p[id="winnerStatement"').remove();
+    }
+
+    initialiseGame();
+
     let roundCounter = document.querySelector('#roundCounter');
     let round = 1;
     roundCounter.textContent = `Round: ${round}`;
@@ -111,6 +117,7 @@ function computerWon() {
 
 function gameOver(whoWon) {
     let winnerStatement = document.createElement('p');
+    winnerStatement.id = 'winnerStatement';
     let body = document.querySelector('body');
     if (whoWon == "player") {
         winnerStatement.textContent = "You won the game!";
@@ -147,6 +154,29 @@ function nextRound() {
         roundCounter.textContent = `Round: ${round}`;
     }
 
+}
+
+function initialiseGame() {
+    let body = document.querySelector('body');
+
+    body.appendChild( initialiseGameFactory('p', 'roundCounter') );
+    body.appendChild( initialiseGameFactory('p', 'playerCounter') );
+    body.appendChild( initialiseGameFactory('p', 'computerCounter') );
+    
+    body.appendChild( initialiseGameFactory('div', 'buttonContainer') );
+
+    let outcomeContainer = initialiseGameFactory('div', 'outcomeContainer');
+    body.appendChild(outcomeContainer);
+    outcomeContainer.appendChild( initialiseGameFactory('p', 'playerOutcome') );
+    outcomeContainer.appendChild( initialiseGameFactory('p', 'computerOutcome') );
+    outcomeContainer.appendChild( initialiseGameFactory('p', 'roundOutcome') );
+
+}
+
+function initialiseGameFactory(type, id) {
+    let element = document.createElement(type);
+    element.id = id;
+    return element;
 }
 
 let startButton = document.querySelector('button[id="startButton"]');
